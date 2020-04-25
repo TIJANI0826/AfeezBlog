@@ -1,0 +1,17 @@
+{% extends "blog/master.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block head_content %} {{ form.media }} {% endblock head_content%}
+
+
+{% block content %}
+
+<h1>Contact Update</h1>
+
+<form  method="post">
+{% csrf_token %}
+{{ form| crispy }}
+<input  type="submit"  value="Submit"  />
+</form>
+{% endblock content %}

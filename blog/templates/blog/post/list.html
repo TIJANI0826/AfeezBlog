@@ -1,0 +1,27 @@
+{% extends "blog/master.html" %}
+
+{% block title %}Our Blog{% endblock %}
+
+{% block content %}
+   <h2 class="page-header">Recents Posts</h2>
+   <hr/>
+   <form method="GET" action="">
+    <div class="input-group">
+        <input class="form-control" type="text" name="q" placeholder="Search Post" value="{{ request.GET.q }}"/>
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" value="Search"></button><i class="fa fa-search"></i></button>
+        </span>
+    </div>
+</form>
+
+    {% for post in posts %}
+       <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        <p class="small">Published {{ post.publish }} by {{ post.author }}</p>
+        <p>{{ post.body|truncatewords:2 }}</p>
+        <p> {{ post.get_markdown|truncatewords:2|linebreaks }}</p>
+        <hr/>
+        
+    {% endfor %}
+    <a href="{% url "mainsite:home" %}">go to main page</a>
+        {% include "pagination.html" with page=posts %}
+{% endblock %}
