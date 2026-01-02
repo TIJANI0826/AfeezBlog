@@ -7,7 +7,17 @@ from blog.models import Post
 
 def home(request):
 	posts = Post.published.all()
-	return render(request,'mainsite/home.html', {'posts': posts})
+	paginator = Paginator(posts, 3) # 3 posts in each page
+	page = request.GET.get('page')
+	try:
+		posts = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer deliver the first page
+		posts = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range deliver last page of results
+		posts = paginator.page(paginator.num_pages)
+	return render(request,'mainsite/home.html', {'posts': posts, 'page':page})
 
 def contact(request):
 	return render(request,'mainsite/contact.html')
